@@ -1,0 +1,17 @@
+#include<iostream>
+using namespace std;
+ 
+int main(){
+
+int num[]={2,87,98,45,4,-23};
+int size = 6;
+int smallest = INT_MAX;
+int largest = INT_MIN;
+for(int i=0;i<size;i++){
+    smallest = min(smallest,num[i]);
+    largest = max(largest,num[i]);
+}
+cout<<"smallest  "<<smallest<<endl;
+cout<<"largest  "<<largest<<endl;
+return 0;
+}
