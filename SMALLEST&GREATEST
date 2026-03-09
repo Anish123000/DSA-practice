@@ -1,0 +1,27 @@
+#include<iostream>
+using namespace std;
+int main(){
+
+int num[]={2,87,98,45,4,-23};
+int size = 6;
+int smallest = INT_MAX;
+int largest = INT_MIN;
+int smallestindex = 0;
+int largestindex = 0;
+for(int i=0;i<size;i++){
+  
+    if(num[i] < smallest){
+        smallest = num[i];
+        smallestindex = i;
+    }
+
+    if(num[i] > largest){
+        largest = num[i];
+        largestindex = i;
+    }
+
+}
+cout<<"smallest index "<<smallestindex<<endl;
+cout<<"largest index  "<<largestindex<<endl;
+return 0;
+}
