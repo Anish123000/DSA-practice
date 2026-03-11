@@ -1,0 +1,24 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+void reversevec(vector<int> &num)
+{
+    int start = 0;
+    int end = num.size() - 1;
+    while (start < end)
+    {
+        swap(num[start], num[end]);
+        start++;
+        end--;
+    }
+}
+
+int main()
+{
+    vector<int> num = {2, 3, 5, 4, 7, 9};
+    reversevec(num);
+    for (int i = 0; i < num.size(); i++)
+    {
+        cout << num[i] << " ";
+    }
+}
