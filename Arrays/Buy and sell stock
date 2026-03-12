@@ -15,5 +15,5 @@ bestbuy = min(bestbuy,prices[i]);
 }
 cout<<maxprofit<<"  maxprofit"<<endl;
 cout<<bestbuy<<"  bestbuy"<<endl;
-return maxprofit;
+return 0;
 }
