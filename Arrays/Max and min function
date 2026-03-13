@@ -1,0 +1,13 @@
+ 
+#include <iostream>
+using namespace std;
+int main()
+{
+
+    int arr[] = {2, 4, 6, 8, 9};
+
+    int max = *max_element(arr, arr + 5);
+    int min = *min_element(arr, arr + 5);
+    cout << "Largest element is: " << max << endl;
+    cout << "smallest element is: " << min << endl;
+}
