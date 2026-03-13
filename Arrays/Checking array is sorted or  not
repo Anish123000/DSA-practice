@@ -1,0 +1,17 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+int main()
+{
+    int arr[] = {7, 4, 5, 9, 3, 7};
+
+    if (is_sorted(arr, arr + 6))
+    {
+        cout << "The array is sorted";
+    }
+    else
+    {
+        cout << "Array is not sorted";
+    }
+}
