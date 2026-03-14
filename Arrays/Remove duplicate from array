@@ -1,0 +1,19 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+    int arr[] = {2, 4, 3, 6, 8, 3, 6};
+    int sorted = 0;
+    int j = 0;
+    cout << arr[0] << " ";
+    sort(arr, arr + 7);
+    for (int i = 1; i < 7; i++)
+    {
+        if (arr[i] != arr[i - 1])
+        {
+            j++;
+
+            cout << arr[i] << " ";
+        }
+    }
+}
