@@ -1,0 +1,15 @@
+
+#include <iostream>
+#include <algorithm>
+using namespace std;
+int main()
+{
+    int A[] = {1, 2, 5, 4, 3};
+    int n = 5;
+    next_permutation(A, A + 5);
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << A[i];
+    }
+}
