@@ -1,0 +1,25 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int arr[] = {1, 2, 3, 4};
+    int n = 4;
+    int k = 3;
+    int count = 0;
+
+    for (int st = 0; st < n; st++)
+    {
+        int sum = 0;
+        for (int end = st; end < n; end++)
+        {
+            sum += arr[end];
+            if (sum % k == 0 && (end - st + 1) >= 2)
+            {
+                cout<<"true";
+                return 0;
+            }
+        }
+    }
+    cout << "false";
+}
