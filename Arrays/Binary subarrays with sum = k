@@ -1,0 +1,25 @@
+
+#include <iostream>
+using namespace std;
+int main()
+{
+    int arr[] = {1, 0, 1, 1, 0, 1};
+    int n = 6;
+    int k = 3;
+    int count = 0;
+    for (int st = 0; st < n; st++)
+    {
+        int sum = 0;
+
+        for (int end = st; end < n; end++)
+        {
+            sum += arr[end];
+            if (sum == k)
+            {
+                for (int i = st; i <= end; i++)
+                cout << arr[i] << " ";
+                cout << endl;
+            }
+        }
+    }
+}
