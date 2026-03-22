@@ -1,0 +1,24 @@
+#include <iostream>
+
+using namespace std;
+int rev(int n)
+{
+
+    int revnumm = 0;
+    while (n != 0)
+    {
+        int dig = n % 10;
+        if(revnumm > INT_MAX / 10 || revnumm<INT_MIN/10){
+            return 0;
+        }
+        revnumm = revnumm * 10 + dig;
+        n = n / 10;
+    }
+    return revnumm;
+}
+
+int main()
+{
+    int n = 7841;
+    cout << rev(n);
+}
