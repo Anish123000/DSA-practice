@@ -1,0 +1,38 @@
+#include <iostream>
+
+using namespace std;
+int rev(int n)
+{
+
+    int revnumm = 0;
+    while (n != 0)
+    {
+        int dig = n % 10;
+        if (revnumm > INT_MAX / 10 || revnumm < INT_MIN / 10)
+        {
+            return 0;
+        }
+        revnumm = revnumm * 10 + dig;
+        n = n / 10;
+    }
+    return revnumm;
+}
+bool ispalindrome(int n)
+{
+    if (n < 0)
+    {
+        return false;
+    }
+    int revnum = rev(n);
+    return n == revnum;
+}
+
+int main()
+{
+    int n = 313;
+    cout << "reverse number is " << rev(n) << endl;
+    if (ispalindrome(n))
+        cout << n << " is a palindrome number" << endl;
+    else
+        cout << n << " is not a palindrome number" << endl;
+}
