@@ -1,0 +1,57 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+bool searchinrow(vector<vector<int>> &val, int target, int row)
+{
+    int n = val[0].size();
+    int st = 0, end = n - 1;
+    while (st <= end)
+    {
+        int mid = st + (end - st) / 2;
+        if (target == val[row][mid])
+        {
+            return true;
+        }
+        else if (target > val[row][mid])
+        {
+            st = mid + 1;
+        }
+        else
+        {
+            end = mid - 1;
+        }
+    }
+    return false;
+}
+
+bool searchinmatrix(vector<vector<int>> &val, int target)
+{
+    int m = val.size(), n = val[0].size();
+    int endrow = m - 1;
+    int startrow = 0;
+    while (startrow <= endrow)
+    {
+        int midrow = startrow + (endrow - startrow) / 2;
+        if (target >= val[midrow][0] && target <= val[midrow][n - 1])
+        {
+            return searchinrow(val, target, midrow);
+        }
+        else if (target >= val[midrow][n - 1])
+        {
+            startrow = midrow + 1;
+        }
+        else
+        {
+            endrow = midrow - 1;
+        }
+    }
+    return false;
+}
+
+int main()
+{
+
+    vector<vector<int> >val = {{1, 4, 7, 10}, {13, 16, 19, 22}, {12, 28, 31, 33}};
+    int target = 31;
+    cout << searchinmatrix( val, target);
+}
