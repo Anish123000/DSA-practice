@@ -1,0 +1,39 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    string s = "AABABBA";
+    int k = 1;
+    int n = s.size();
+
+    int count[26] = {0};
+    int left = 0;
+    int max_count = 0;
+    int max_len = 0;
+    int start = 0;
+
+    for(int right = 0; right < n; right++) {
+        count[s[right]-'A']++;
+        max_count = max(max_count, count[s[right]-'A']);
+
+        if((right - left + 1) - max_count > k) {  
+            count[s[left]-'A']--;
+            left++;
+        }
+
+        if(right - left + 1 > max_len) {  // update max_len and start together
+            max_len = right - left + 1;
+            start = left;
+        }
+    }
+
+    cout << max_len << endl;
+    for(int i = start; i < start + max_len; i++){
+        cout << s[i];
+    }
+    cout << endl;
+
+    return 0;
+}
