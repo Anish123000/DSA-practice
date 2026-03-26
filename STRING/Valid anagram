@@ -1,0 +1,31 @@
+#include <iostream>
+#include <unordered_map>
+using namespace std;
+int main()
+{
+    string s = "anagram";
+    string t = "nagaram";
+    if (s.length() != t.length())
+    {
+        cout << "false";
+        return 0;
+    }
+    unordered_map<char, int> mp;
+    for (char ch : s)
+    {
+        mp[ch]++;
+    }
+    for (char ch : t)
+    {
+        mp[ch]--;
+    }
+    for (auto it : mp)
+    {
+        if (it.second != 0)
+        {
+            cout << "false";
+            return 0;
+        }
+    }
+    cout << "true";
+}
