@@ -1,0 +1,35 @@
+// Time complexity O(log n)
+// Space complexity O(log n)
+#include <iostream>
+using namespace std;
+int binarysearch(int arr[], int tar, int st, int end)
+{
+    int n = 6;
+
+    if (st <= end)
+    {
+        int mid = st + (end - st) / 2;
+        if (tar == arr[mid])
+        {
+            return mid;
+        }
+        else if (tar > arr[mid])
+        {
+            return binarysearch(arr, tar, mid + 1, end);
+        }
+        else
+        {
+
+            return binarysearch(arr, tar, st, mid - 1);
+        }
+    }
+    return -1;
+}
+
+int main()
+{
+    int arr[] = {0, 1, 2, 4, 6, 7};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int target = 7;
+    cout << binarysearch(arr, target, 0, n - 1);
+}
