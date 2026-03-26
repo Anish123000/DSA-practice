@@ -1,0 +1,16 @@
+ #include <iostream>
+#include <vector>
+using namespace std;
+int main()
+{
+    vector<string> str = {"flower", "flight", "flyover"};
+    string prefix = str[0];
+    for (int i = 1; i < str.size(); i++)
+    {
+        while (str[i].find(prefix) != 0)
+        {
+            prefix = prefix.substr(0, prefix.length() - 1);
+        }
+    }
+    cout << prefix;
+}
