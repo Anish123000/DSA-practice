@@ -1,0 +1,22 @@
+#include <iostream>
+#include <unordered_map>
+using namespace std;
+int main()
+{
+    string str = "longlive";
+    int count = 0;
+    unordered_map<char, int> mp;
+    for (char ch : str)
+    {
+        mp[ch]++;
+    }
+    for (int i = 0; i < str.length(); i++)
+    {
+        if (mp[str[i]] == 1)
+        {
+            cout << str[i];
+            return 0;
+        }
+    }
+    cout << "no unique character";
+}
