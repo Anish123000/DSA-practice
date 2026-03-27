@@ -1,0 +1,100 @@
+//To check true or false 
+#include <iostream>
+using namespace std;
+
+bool isPalindrome(string &s, int l, int r)
+{
+    while (l < r)
+    {
+        if (s[l] != s[r])
+        {
+            return false;
+        }
+        l++;
+        r--;
+    }
+    return true;
+}
+
+int main()
+{
+    string s = "abca";
+
+    int left = 0;
+    int right = s.size() - 1;
+
+    while (left < right)
+    {
+        if (s[left] != s[right])
+        {
+            if (isPalindrome(s, left + 1, right) ||
+                isPalindrome(s, left, right - 1))
+            {
+                cout << "true";
+            }
+            else
+            {
+                cout << "false";
+            }
+            return 0;
+        }
+        left++;
+        right--;
+    }
+
+    cout << "true";
+}
+
+//Print the new string 
+
+
+#include <iostream>
+using namespace std;
+
+bool isPalindrome(string &s, int l, int r)
+{
+    while (l < r)
+    {
+        if (s[l] != s[r])
+        {
+            return false;
+        }
+        l++;
+        r--;
+    }
+    return true;
+}
+
+int main()
+{
+    string s = "abca";
+
+    int left = 0;
+    int right = s.size() - 1;
+
+    while (left < right)
+    {
+        if (s[left] != s[right])
+        {
+
+            if (isPalindrome(s, left + 1, right))
+            {
+                string res = s.substr(0, left) + s.substr(left + 1);
+                cout << res << endl; // aca
+            }
+
+            if (isPalindrome(s, left, right - 1))
+            {
+                string res = s.substr(0, right) + s.substr(right + 1);
+                cout << res << endl; // aba
+            }
+
+            return 0;
+        }
+
+        left++;
+        right--;
+    }
+
+    cout << s;
+}
