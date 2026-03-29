@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+#include <set>
+using namespace std;
+set<vector<int>> s;
+void getallcombinations(vector<int> &candidates, int index, int target, vector<vector<int>> &ans, vector<int> &combin)
+{
+    if (index == candidates.size() || target < 0)
+    {
+        return;
+    }
+    if (target == 0)
+    {
+        if (s.find(combin) == s.end())
+        {
+            ans.push_back({combin});
+            s.insert(combin);
+        }
+        return;
+    }
+    combin.push_back(candidates[index]);
+    // single
+    getallcombinations(candidates, index + 1, target - candidates[index], ans, combin);
+    // multiple
+    getallcombinations(candidates, index, target - candidates[index], ans, combin);
+    // exclusion
+    combin.pop_back();
+    getallcombinations(candidates, index + 1, target, ans, combin);
+}
+
+int main()
+{
+    vector<int> candidates = {2, 3, 6, 7};
+    int target = 7;
+    vector<vector<int>> ans;
+    vector<int> combin;
+    // vector<vector<int>> combinationsum(vector<int> & candidates, int target);
+
+    getallcombinations(candidates, 0, target, ans, combin);
+    for (auto &it : ans)
+    {
+        for (auto i : it)
+        {
+            cout << i << " ";
+        }
+        cout<<endl;
+    }
