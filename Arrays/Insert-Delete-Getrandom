@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <cstdlib>
+using namespace std;
+
+class RandomizedSet {
+public:
+    vector<int> arr;                  
+    unordered_map<int,int> mp;       
+
+    RandomizedSet() {
+    }
+    
+    bool insert(int val) {
+        if (mp.count(val)) return false;    
+        arr.push_back(val);
+        mp[val] = arr.size() - 1;
+        return true;
+    }
+    
+    bool remove(int val) {
+        if (!mp.count(val)) return false; 
+        
+        int idx = mp[val];
+        int last = arr.back();
+        
+        
+        arr[idx] = last;
+        mp[last] = idx;
+        
+      
+        arr.pop_back();
+        mp.erase(val);
+        
+        return true;
+    }
+    
+    int getRandom() {
+        int idx = rand() % arr.size();
+        return arr[idx];
+    }
+};
+
+int main() {
+    RandomizedSet rs;
+
+    cout << rs.insert(1) << endl; 
+    cout << rs.insert(2) << endl; 
+    cout << rs.insert(1) << endl; 
+    cout << rs.getRandom() << endl;
+
+    cout << rs.remove(1) << endl; // true
+    cout << rs.remove(3) << endl; // false
+
+    cout << rs.getRandom() << endl;
+
+    return 0;
+}
