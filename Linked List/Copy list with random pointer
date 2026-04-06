@@ -1,0 +1,98 @@
+#include <iostream>
+#include <unordered_map>
+using namespace std;
+ 
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if(head==NULL){
+            return NULL;
+        }
+
+        unordered_map<Node* , Node*> m;
+
+        Node* newhead = new Node(head->val);
+        Node* oldtemp = head->next;
+        Node* newtemp = newhead;
+
+        m[head] = newhead;
+ 
+        while(oldtemp != NULL){
+            Node* copynode = new Node(oldtemp->val);
+            m[oldtemp] = copynode;
+            newtemp->next = copynode;
+
+            oldtemp = oldtemp->next;
+            newtemp = newtemp->next;
+        }
+ 
+        oldtemp = head;
+        newtemp = newhead;
+
+        while(oldtemp != NULL){
+            newtemp->random = m[oldtemp->random];
+            oldtemp = oldtemp->next;
+            newtemp = newtemp->next;
+        }
+
+        return newhead;
+    }
+};
+ 
+void print(Node* head){
+    while(head){
+        cout << "Value: " << head->val << ", ";
+        if(head->random)
+            cout << "Random: " << head->random->val;
+        else
+            cout << "Random: NULL";
+        cout << endl;
+
+        head = head->next;
+    }
+}
+
+int main(){
+ 
+    Node* a = new Node(7);
+    Node* b = new Node(13);
+    Node* c = new Node(11);
+    Node* d = new Node(10);
+    Node* e = new Node(1);
+
+ 
+    a->next = b;
+    b->next = c;
+    c->next = d;
+    d->next = e;
+ 
+    a->random = NULL;
+    b->random = a;
+    c->random = e;
+    d->random = c;
+    e->random = a;
+
+    cout << "Original List:\n";
+    print(a);
+
+    Solution obj;
+    Node* copy = obj.copyRandomList(a);
+
+    cout << "\nCopied List:\n";
+    print(copy);
+
+    return 0;
+}
