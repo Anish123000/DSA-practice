@@ -1,0 +1,63 @@
+#include<iostream>
+#include<unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        unordered_map<char,int> need, win;
+        
+       
+        for(char ch : t){
+            need[ch]++;
+        }
+
+        int req = need.size();    
+        int freq = 0;            
+        int left = 0;
+        int start = 0;
+        int minlen = INT_MAX;
+ 
+        for(int right = 0; right < s.length(); right++){
+            char ch = s[right];
+            win[ch]++;
+ 
+            if(need.count(ch) && win[ch] == need[ch]){
+                freq++;
+            }
+ 
+            while(freq == req){
+                
+                if(right - left + 1 < minlen){
+                    minlen = right - left + 1;
+                    start = left;
+                }
+ 
+                char leftchar = s[left];
+                win[leftchar]--;
+ 
+                if(need.count(leftchar) && win[leftchar] < need[leftchar]){
+                    freq--;
+                }
+
+                left++;
+            }
+        }
+ 
+        if(minlen == INT_MAX){
+            return "";
+        }
+        
+        return s.substr(start, minlen);
+    }
+};
+ 
+int main() {
+    Solution obj;
+    string s = "ADOBECODEBANC";
+    string t = "ABC";
+
+    cout << obj.minWindow(s, t) << endl;  
+
+    return 0;
+}
