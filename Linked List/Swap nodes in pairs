@@ -1,0 +1,98 @@
+#include <iostream>
+using namespace std;
+
+ 
+struct ListNode {
+    int val;
+    ListNode *next;
+
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
+
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if (head == NULL || head->next == NULL) {
+            return head;
+        }
+
+        ListNode* first = head;
+        ListNode* second = head->next;
+        ListNode* prev = NULL;
+
+        while (first != NULL && second != NULL) {
+            ListNode* third = second->next;
+
+            // swap
+            second->next = first;
+            first->next = third;
+
+            // connect previous pair
+            if (prev != NULL) {
+                prev->next = second;
+            } else {
+                head = second;
+            }
+
+            // move forward
+            prev = first;
+            first = third;
+
+            if (third != NULL) {
+                second = third->next;
+            } else {
+                second = NULL;
+            }
+        }
+
+        return head;
+    }
+};
+
+// helper: insert node
+void insert(ListNode*& head, int val) {
+    if (!head) {
+        head = new ListNode(val);
+        return;
+    }
+
+    ListNode* temp = head;
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+    temp->next = new ListNode(val);
+}
+
+// helper: print list
+void print(ListNode* head) {
+    while (head != NULL) {
+        cout << head->val << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+int main() {
+    ListNode* head = NULL;
+
+    int n;
+    cout << "Enter number of nodes: ";
+    cin >> n;
+
+    cout << "Enter elements: ";
+    for (int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        insert(head, x);
+    }
+
+    Solution obj;
+    head = obj.swapPairs(head);
+
+    cout << "After swapping pairs: ";
+    print(head);
+
+    return 0;
+}
