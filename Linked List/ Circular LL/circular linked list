@@ -1,0 +1,83 @@
+
+#include <iostream>
+using namespace std;
+
+class node {
+public:
+    int data;
+    node* next;
+
+    node(int val) {
+        data = val;
+        next = NULL;
+    }
+};
+
+class circularlist {
+    node* head;
+    node* tail;
+
+public:
+    circularlist() {
+        head = tail = NULL;
+    }
+
+    void insertathead(int val) {
+        node* newnode = new node(val);
+
+        if (tail == NULL) {
+            head = tail = newnode;
+            tail->next = head;
+        } 
+        else {
+            newnode->next = head;
+            head = newnode;
+            tail->next = head;
+        }
+    }
+
+    void insertattail(int val) {
+        node* newnode = new node(val);
+
+        if (tail == NULL) {
+            head = tail = newnode;
+            tail->next = head;
+        } 
+        else {
+            newnode->next = head;
+            tail->next = newnode;
+            tail = newnode;
+        }
+    }
+
+    void print() {
+        if (head == NULL) {
+            cout << "List is empty" << endl;
+            return;
+        }
+
+        node* temp = head;
+
+        do {
+            cout << temp->data << " -> ";
+            temp = temp->next;
+        } while (temp != head);
+
+        cout << "(back to head)" << endl;
+    }
+};
+
+int main() {
+    circularlist cll;
+
+    cll.insertathead(1);
+    cll.insertathead(2);
+
+    cll.insertattail(3);
+    cll.insertattail(4);
+
+    cout << "Circular Linked List: ";
+    cll.print();
+
+    return 0;
+}
