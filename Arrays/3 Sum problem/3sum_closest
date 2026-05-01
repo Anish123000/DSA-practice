@@ -1,0 +1,52 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int threeSumClosest(vector<int>& nums, int target) {
+    int n = nums.size();
+    sort(nums.begin(), nums.end());
+
+    int closest = nums[0] + nums[1] + nums[2];
+
+    for(int i = 0; i < n - 2; i++) {
+        int j = i + 1;
+        int k = n - 1;
+
+        while(j < k) {
+            int sum = nums[i] + nums[j] + nums[k];
+
+            // manual abs
+            int diff1 = target - sum;
+            if(diff1 < 0) diff1 = -diff1;
+
+            int diff2 = target - closest;
+            if(diff2 < 0) diff2 = -diff2;
+
+            if(diff1 < diff2) {
+                closest = sum;
+            }
+
+            if(sum < target) {
+                j++;
+            }
+            else if(sum > target) {
+                k--;
+            }
+            else {
+                return sum;
+            }
+        }
+    }
+    return closest;
+}
+
+int main() {
+    vector<int> nums = {-1, 2, 1, -4};
+    int target = 1;
+
+    int result = threeSumClosest(nums, target);
+    cout << "Closest sum: " << result << endl;
+
+    return 0;
+}
