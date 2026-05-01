@@ -36,7 +36,7 @@ int main()
 
                     j++;
 
-                while (j < k && vec[k] == vec[k - 1])
+                while (j < k && vec[k] == vec[k + 1])
                     k--;
             }
         }
