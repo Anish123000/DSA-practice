@@ -1,0 +1,56 @@
+#include <iostream>
+#include<vector>
+using namespace std;
+
+class Solution {
+public:
+    int numOfSubarrays(vector<int>& arr, int k, int threshold) {
+        int n = arr.size();
+        int count = 0;
+        int sum = 0;
+
+        int target = k * threshold;
+ 
+        for(int i = 0; i < k; i++){
+            sum += arr[i];
+        }
+
+        if(sum >= target){
+            count++;
+        }
+ 
+        for(int i = k; i < n; i++){
+            sum += arr[i];        
+            sum -= arr[i - k];    
+
+            if(sum >= target){
+                count++;
+            }
+        }
+
+        return count;
+    }
+};
+
+int main() {
+    int n, k, threshold;
+
+    cout << "Enter size of array: ";
+    cin >> n;
+
+    vector<int> arr(n);
+    cout << "Enter array elements: ";
+    for(int i = 0; i < n; i++){
+        cin >> arr[i];
+    }
+
+    cout << "Enter k and threshold: ";
+    cin >> k >> threshold;
+
+    Solution obj;
+    int result = obj.numOfSubarrays(arr, k, threshold);
+
+    cout << "Answer: " << result << endl;
+
+    return 0;
+}
