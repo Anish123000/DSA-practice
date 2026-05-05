@@ -1,0 +1,44 @@
+#include <iostream>
+#include<vector>
+#include<unordered_map>
+#include<algorithm>
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> res;
+        unordered_map<string, vector<string>> mp;
+ 
+        for(int i = 0; i < strs.size(); i++) {
+            string temp = strs[i];
+
+            sort(temp.begin(), temp.end()); // key ban raha hai
+
+            mp[temp].push_back(strs[i]);    // group store
+        }
+ 
+        for(auto it : mp) {
+            res.push_back(it.second); // result mai sirf value chahiye isiliye sirf second ko hi push_back kar rhe hai .
+        }
+
+        return res;
+    }
+};
+
+int main() {
+    Solution obj;
+
+    vector<string> strs = {"eat","tea","tan","ate","nat","bat"};
+
+    vector<vector<string>> ans = obj.groupAnagrams(strs);
+
+    for(auto group : ans) {
+        for(auto word : group) {
+            cout << word << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
