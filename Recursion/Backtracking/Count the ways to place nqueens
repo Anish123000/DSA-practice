@@ -1,0 +1,87 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+
+    bool issafe(vector<string>& board, int row, int col, int n) {
+
+        // check row
+        for (int j = 0; j < n; j++) {
+            if (board[row][j] == 'Q') {
+                return false;
+            }
+        }
+
+        // check column
+        for (int i = 0; i < n; i++) {
+            if (board[i][col] == 'Q') {
+                return false;
+            }
+        }
+
+        // upper left diagonal
+        for (int i = row, j = col; i >= 0 && j >= 0; i--, j--) {
+            if (board[i][j] == 'Q') {
+                return false;
+            }
+        }
+
+        // upper right diagonal
+        for (int i = row, j = col; i >= 0 && j < n; i--, j++) {
+            if (board[i][j] == 'Q') {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    void nqueen(vector<string>& board,int row,int n,int &count) {
+ 
+        if (row == n) {
+            count++;
+            return;
+        }
+ 
+        for (int col = 0; col < n; col++) {
+
+            if (issafe(board, row, col, n)) {
+
+                // place queen
+                board[row][col] = 'Q';
+
+                // recursive call
+                nqueen(board, row + 1, n, count);
+
+                // backtrack
+                board[row][col] = '.';
+            }
+        }
+    }
+
+    int totalNQueens(int n) {
+
+        vector<string> board(n, string(n, '.'));
+
+        int count = 0;
+
+        nqueen(board, 0, n, count);
+
+        return count;
+    }
+};
+
+int main() {
+
+    Solution obj;
+
+    int n;
+    cin >> n;
+
+    cout << obj.totalNQueens(n);
+
+    return 0;
+}
