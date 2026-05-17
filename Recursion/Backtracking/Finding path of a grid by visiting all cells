@@ -1,0 +1,73 @@
+#include <iostream>
+#include<vector>
+using namespace std;
+
+class Solution {
+public:
+
+    void helper(vector<vector<int>>& grid, int r, int c,int visit, int total, int &count) {
+
+        int n = grid.size();
+        int m = grid[0].size();
+
+        if (r < 0 || c < 0 || r >= n || c >= m || grid[r][c] == -1)
+            return;
+
+        if (grid[r][c] == 2) {
+            if (visit == total)
+                count++;
+            return;
+        }
+
+        int temp = grid[r][c];
+        grid[r][c] = -1;
+
+        helper(grid, r + 1, c, visit + 1, total, count);
+        helper(grid, r - 1, c, visit + 1, total, count);
+        helper(grid, r, c + 1, visit + 1, total, count);
+        helper(grid, r, c - 1, visit + 1, total, count);
+
+        grid[r][c] = temp;
+    }
+
+    int uniquePathsIII(vector<vector<int>>& grid) {
+
+        int n = grid.size();
+        int m = grid[0].size();
+
+        int sr = 0, sc = 0;
+        int total = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid[i][j] != -1)
+                    total++;
+
+                if (grid[i][j] == 1) {
+                    sr = i;
+                    sc = j;
+                }
+            }
+        }
+
+        int count = 0;
+
+        helper(grid, sr, sc, 1, total, count);
+
+        return count;
+    }
+};
+
+int main() {
+    Solution obj;
+
+    vector<vector<int>> grid = {
+        {1,0,0,0},
+        {0,0,0,0},
+        {0,0,2,-1}
+    };
+
+    cout << obj.uniquePathsIII(grid) << endl;
+
+    return 0;
+}
