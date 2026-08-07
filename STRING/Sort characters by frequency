@@ -1,0 +1,47 @@
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+
+    string s = "tree";
+
+    unordered_map<char, int> mp;
+
+    string ans = "";
+
+    for (char ch : s)
+    {
+        mp[ch]++;
+    }
+
+    vector<pair<char, int>> arr;
+
+    for (auto x : mp)
+    {
+        arr.push_back({x.first, x.second});
+    }
+
+    sort(arr.begin(), arr.end(), [](auto &a, auto &b)
+         { return a.second > b.second; });
+
+    for (auto x : arr)
+    {
+
+        char ch = x.first;
+        int freq = x.second;
+
+        while (freq != 0)
+        {
+            ans += ch;
+            freq--;
+        }
+    }
+
+    cout << "Frequency sorted string: " << ans << endl;
+
+    return 0;
+}
