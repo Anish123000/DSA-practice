@@ -1,0 +1,51 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+
+    string s = "cbaebabacd";
+    string p = "abc";
+
+    vector<int> ans;
+
+    int n = s.length();
+    int m = p.length();
+
+    int left = 0;
+
+    vector<int> freq1(26, 0);
+    vector<int> freq2(26, 0);
+
+    // Pattern frequency
+    for(char ch : p) {
+        freq2[ch - 'a']++;
+    }
+
+    // Sliding window
+    for(int i = 0; i < n; i++) {
+
+        freq1[s[i] - 'a']++;
+
+        while(i - left + 1 > m) {
+            freq1[s[left] - 'a']--;
+            left++;
+        }
+
+        if(i - left + 1 == m) {
+
+            if(freq1 == freq2) {
+                ans.push_back(left);
+            }
+
+        }
+    }
+
+    cout << "Anagram starting indices: ";
+
+    for(int i : ans) {
+        cout << i << " ";
+    }
+
+    return 0;
+}
