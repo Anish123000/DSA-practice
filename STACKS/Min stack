@@ -1,0 +1,70 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+stack<long long> s;
+long long minval;
+
+void push(int val)
+{
+    if (s.empty())
+    {
+        s.push(val);
+        minval = val;
+    }
+    else
+    {
+        if (val < minval)
+        {
+            s.push((long long)2 * val - minval);
+            minval = val;
+        }
+        else
+        {
+            s.push(val);
+        }
+    }
+}
+
+void pop()
+{
+    if (s.top() < minval)
+    {
+        minval = 2 * minval - s.top();
+    }
+
+    s.pop();
+}
+
+int top()
+{
+    if (s.top() < minval)
+    {
+        return minval;
+    }
+    else
+    {
+        return s.top();
+    }
+}
+
+int getMin()
+{
+    return minval;
+}
+
+int main()
+{
+    push(-2);
+    push(0);
+    push(-3);
+
+    cout << "Minimum: " << getMin() << endl;
+
+    pop();
+
+    cout << "Top: " << top() << endl;
+    cout << "Minimum: " << getMin() << endl;
+
+    return 0;
+}
