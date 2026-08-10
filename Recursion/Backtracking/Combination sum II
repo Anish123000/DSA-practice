@@ -1,0 +1,91 @@
+#include <iostream>
+#include <vector>
+#include <set>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+
+    void helper(vector<int>& candidates, int index, vector<int>& combin, int target, vector<vector<int>>& ans, set<vector<int>>& s)
+    {
+        // Combination complete
+        if (target == 0)
+        {
+            if (s.find(combin) == s.end())
+            {
+                ans.push_back(combin);
+                s.insert(combin);
+            }
+            return;
+        }
+
+        // Out of range or target negative
+        if (index == candidates.size() || target < 0)
+        {
+            return;
+        }
+
+        // Choose current element
+        combin.push_back(candidates[index]);
+
+        helper(candidates,  index + 1, combin, target - candidates[index], ans, s);
+ 
+        combin.pop_back();
+
+        // Skip duplicate elements
+        int next = index + 1;
+
+        while (next < candidates.size() &&  candidates[index] == candidates[next])
+        {
+            next++;
+        }
+
+        // Don't choose current element
+        helper(candidates, next,combin, target,  ans, s);
+    }
+
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target)
+    {
+        vector<vector<int>> ans;
+        set<vector<int>> s;
+
+        sort(candidates.begin(), candidates.end());
+
+        vector<int> combin;
+
+        helper(candidates, 0, combin, target, ans, s);
+
+        return ans;
+    }
+};
+
+int main()
+{
+    vector<int> candidates = {10, 1, 2, 7, 6, 1, 5};
+    int target = 8;
+
+    Solution obj;
+
+    vector<vector<int>> ans = obj.combinationSum2(candidates, target);
+
+    for (auto& combination : ans)
+    {
+        cout << "[";
+
+        for (int i = 0; i < combination.size(); i++)
+        {
+            cout << combination[i];
+
+            if (i != combination.size() - 1)
+            {
+                cout << ",";
+            }
+        }
+
+        cout << "] ";
+    }
+
+    return 0;
+}
