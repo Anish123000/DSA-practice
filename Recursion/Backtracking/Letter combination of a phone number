@@ -1,0 +1,71 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+
+    void helper(string digits, string keypad[], vector<string>& ans,
+                int index, string s) {
+
+        // Base case
+        if (s.size() == digits.size()) {
+            ans.push_back(s);
+            return;
+        }
+
+        // Current digit ki letters
+        string letters = keypad[digits[index] - '0'];
+
+        // Har letter ko try karo
+        for (char ch : letters) {
+
+            s.push_back(ch);
+
+            helper(digits, keypad, ans, index + 1, s);
+
+            s.pop_back();
+        }
+    }
+
+    vector<string> letterCombinations(string digits) {
+
+        vector<string> ans;
+        string s = "";
+
+        string keypad[10] = {
+            "", "", "abc", "def", "ghi",
+            "jkl", "mno", "pqrs", "tuv", "wxyz"
+        };
+
+        // Empty input
+        if (digits.empty()) {
+            return ans;
+        }
+
+        helper(digits, keypad, ans, 0, s);
+
+        return ans;
+    }
+};
+
+int main() {
+
+    Solution obj;
+
+    string digits;
+
+    cout << "Enter digits: ";
+    cin >> digits;
+
+    vector<string> result = obj.letterCombinations(digits);
+
+    cout << "Combinations:" << endl;
+
+    for (string s : result) {
+        cout << s << endl;
+    }
+
+    return 0;
+}
