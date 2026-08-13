@@ -1,0 +1,51 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    void helper(int n, int close, int open, string s, vector<string>& ans) {
+
+        if (s.size() == 2 * n) {
+            ans.push_back(s);
+            return;
+        }
+
+        if (open < n) {
+            helper(n, close, open + 1, s + "(", ans);
+        }
+
+        if (close < open) {
+            helper(n, close + 1, open, s + ")", ans);
+        }
+    }
+
+    vector<string> generateParenthesis(int n) {
+        vector<string> ans;
+        string s = "";
+
+        helper(n, 0, 0, s, ans);
+
+        return ans;
+    }
+};
+
+int main() {
+
+    Solution obj;
+
+    int n;
+    cout << "Enter n: ";
+    cin >> n;
+
+    vector<string> result = obj.generateParenthesis(n);
+
+    cout << "Valid Parentheses:" << endl;
+
+    for (string s : result) {
+        cout << s << endl;
+    }
+
+    return 0;
+}
