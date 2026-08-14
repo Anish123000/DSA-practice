@@ -1,0 +1,72 @@
+#include <iostream>
+using namespace std;
+
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+
+    ListNode(int x) {
+        val = x;
+        next = NULL;
+    }
+};
+
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+
+        // Head ke nodes remove karo
+        while (head != NULL && head->val == val) {
+            head = head->next;
+        }
+
+        ListNode* prev = NULL;
+        ListNode* curr = head;
+
+        // Baaki nodes check karo
+        while (curr != NULL) {
+
+            if (curr->val == val) {
+                prev->next = curr->next;
+                curr = curr->next;
+            }
+            else {
+                prev = curr;
+                curr = curr->next;
+            }
+        }
+
+        return head;
+    }
+};
+
+int main() {
+
+    // Linked List: 1 -> 2 -> 6 -> 3 -> 4 -> 5 -> 6
+
+    ListNode* head = new ListNode(1);
+
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(6);
+    head->next->next->next = new ListNode(3);
+    head->next->next->next->next = new ListNode(4);
+    head->next->next->next->next->next = new ListNode(5);
+    head->next->next->next->next->next->next = new ListNode(6);
+
+    int val = 6;
+
+    Solution obj;
+
+    head = obj.removeElements(head, val);
+
+    // Output
+    ListNode* temp = head;
+
+    while (temp != NULL) {
+        cout << temp->val << " ";
+        temp = temp->next;
+    }
+
+    return 0;
+}
