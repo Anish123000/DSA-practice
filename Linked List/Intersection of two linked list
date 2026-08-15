@@ -1,0 +1,67 @@
+#include <iostream>
+using namespace std;
+
+struct ListNode {
+    int val;
+    ListNode* next;
+
+    ListNode(int x) {
+        val = x;
+        next = NULL;
+    }
+};
+
+class Solution {
+public:
+    ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
+        ListNode* curr = headA;
+        ListNode* sec = headB;
+
+        while (curr != sec) {
+
+            if (curr == NULL)
+                curr = headB;
+            else
+                curr = curr->next;
+
+            if (sec == NULL)
+                sec = headA;
+            else
+                sec = sec->next;
+        }
+
+        return curr;
+    }
+};
+
+int main() {
+
+    // Common part
+    ListNode* c1 = new ListNode(7);
+    ListNode* c2 = new ListNode(8);
+    ListNode* c3 = new ListNode(9);
+
+    c1->next = c2;
+    c2->next = c3;
+
+    // List A
+    ListNode* headA = new ListNode(1);
+    headA->next = new ListNode(2);
+    headA->next->next = c1;
+
+    // List B
+    ListNode* headB = new ListNode(4);
+    headB->next = new ListNode(5);
+    headB->next->next = c1;
+
+    Solution obj;
+
+    ListNode* ans = obj.getIntersectionNode(headA, headB);
+
+    if (ans != NULL)
+        cout << "Intersection: " << ans->val << endl;
+    else
+        cout << "No Intersection" << endl;
+
+    return 0;
+}
