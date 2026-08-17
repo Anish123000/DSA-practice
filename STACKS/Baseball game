@@ -1,0 +1,55 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <stack>
+using namespace std;
+
+class Solution {
+public:
+    int calPoints(vector<string>& ops) {
+        stack<int> s;
+        int sum = 0;
+
+        for (int i = 0; i < ops.size(); i++) {
+
+            if (ops[i] == "D") {
+                s.push(2 * s.top());
+            }
+
+            else if (ops[i] == "+") {
+                int first = s.top();
+                s.pop();
+
+                int second = s.top();
+
+                s.push(first);
+                s.push(first + second);
+            }
+
+            else if (ops[i] == "C") {
+                s.pop();
+            }
+
+            else {
+                s.push(stoi(ops[i]));
+            }
+        }
+
+        while (!s.empty()) {
+            sum += s.top();
+            s.pop();
+        }
+
+        return sum;
+    }
+};
+
+int main() {
+    Solution obj;
+
+    vector<string> ops = {"5", "2", "C", "D", "+"};
+
+    cout << obj.calPoints(ops);
+
+    return 0;
+}
