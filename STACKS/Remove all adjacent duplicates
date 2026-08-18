@@ -1,0 +1,44 @@
+#include <iostream>
+#include <string>
+#include <stack>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    stack<char> sa;
+
+    string removeDuplicates(string s) {
+        string a;
+
+        for (int i = 0; i < s.size(); i++) {
+            char ch = s[i];
+
+            if (!sa.empty() && sa.top() == ch) {
+                sa.pop();
+            }
+            else {
+                sa.push(ch);
+            }
+        }
+
+        while (!sa.empty()) {
+            a.push_back(sa.top());
+            sa.pop();
+        }
+
+        reverse(a.begin(), a.end());
+
+        return a;
+    }
+};
+
+int main() {
+    Solution obj;
+
+    string s = "abbaca";
+
+    cout << obj.removeDuplicates(s);
+
+    return 0;
+}
