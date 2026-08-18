@@ -1,0 +1,64 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+
+    vector<int> asteroidCollision(vector<int>& asteroids) {
+        stack<int> s;
+        vector<int> ans;
+
+        for (int i = 0; i < asteroids.size(); i++) {
+            int aster = asteroids[i];
+            bool alive = true;
+
+            while (!s.empty() && s.top() > 0 && aster < 0) {
+
+                if (s.top() > abs(aster)) {
+                    alive = false;
+                    break;
+                }
+
+                else if (s.top() == abs(aster)) {
+                    s.pop();
+                    alive = false;
+                    break;
+                }
+
+                else {
+                    s.pop();
+                }
+            }
+
+            if (alive) {
+                s.push(aster);
+            }
+        }
+
+        while (!s.empty()) {
+            ans.push_back(s.top());
+            s.pop();
+        }
+
+        reverse(ans.begin(), ans.end());
+
+        return ans;
+    }
+};
+
+int main() {
+    Solution obj;
+
+    vector<int> asteroids = {5, 10, -5};
+
+    vector<int> result = obj.asteroidCollision(asteroids);
+
+    for (int x : result) {
+        cout << x << " ";
+    }
+
+    return 0;
+}
