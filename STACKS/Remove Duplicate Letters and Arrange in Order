@@ -1,0 +1,61 @@
+#include <iostream>
+#include <stack>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    string removeDuplicateLetters(string s) {
+        stack<char> c;
+        string ans = "";
+
+        bool visited[26] = {false};
+        int count[26] = {0};
+
+        for (int i = 0; i < s.size(); i++) {
+            count[s[i] - 'a']++;
+        }
+
+        for (int i = 0; i < s.size(); i++) {
+
+            count[s[i] - 'a']--;
+
+            if (visited[s[i] - 'a'] == true) {
+                continue;
+            }
+
+            while (!c.empty() &&
+                   s[i] < c.top() &&
+                   count[c.top() - 'a'] > 0) {
+
+                visited[c.top() - 'a'] = false;
+                c.pop();
+            }
+
+            visited[s[i] - 'a'] = true;
+            c.push(s[i]);
+        }
+
+        while (!c.empty()) {
+            ans.push_back(c.top());
+            c.pop();
+        }
+
+        reverse(ans.begin(), ans.end());
+
+        return ans;
+    }
+};
+
+int main() {
+
+    Solution obj;
+
+    string s = "bcabc";
+
+    cout << "Input: " << s << endl;
+    cout << "Output: " << obj.removeDuplicateLetters(s) << endl;
+
+    return 0;
+}
