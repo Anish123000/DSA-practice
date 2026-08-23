@@ -1,0 +1,114 @@
+#include <iostream>
+using namespace std;
+
+class MyCircularDeque {
+    int *arr;
+    int front, rear;
+    int cap;
+    int currsize;
+
+public:
+    MyCircularDeque(int k) {
+        cap = k;
+        arr = new int[cap];
+        front = 0;
+        rear = -1;
+        currsize = 0;
+    }
+
+    bool insertFront(int value) {
+        if (currsize == cap)
+            return false;
+
+        if (currsize == 0) {
+            front = rear = 0;
+        } else {
+            front = (front - 1 + cap) % cap;
+        }
+
+        arr[front] = value;
+        currsize++;
+        return true;
+    }
+
+    bool insertLast(int value) {
+        if (currsize == cap)
+            return false;
+
+        if (currsize == 0) {
+            front = rear = 0;
+        } else {
+            rear = (rear + 1) % cap;
+        }
+
+        arr[rear] = value;
+        currsize++;
+        return true;
+    }
+
+    bool deleteFront() {
+        if (currsize == 0)
+            return false;
+
+        if (currsize == 1) {
+            front = 0;
+            rear = -1;
+        } else {
+            front = (front + 1) % cap;
+        }
+
+        currsize--;
+        return true;
+    }
+
+    bool deleteLast() {
+        if (currsize == 0)
+            return false;
+
+        if (currsize == 1) {
+            front = 0;
+            rear = -1;
+        } else {
+            rear = (rear - 1 + cap) % cap;
+        }
+
+        currsize--;
+        return true;
+    }
+
+    int getFront() {
+        if (currsize == 0)
+            return -1;
+        return arr[front];
+    }
+
+    int getRear() {
+        if (currsize == 0)
+            return -1;
+        return arr[rear];
+    }
+
+    bool isEmpty() {
+        return currsize == 0;
+    }
+
+    bool isFull() {
+        return currsize == cap;
+    }
+};
+
+int main() {
+    MyCircularDeque dq(3);
+
+    cout << dq.insertLast(1) << endl;    // 1
+    cout << dq.insertLast(2) << endl;    // 1
+    cout << dq.insertFront(3) << endl;   // 1
+    cout << dq.insertFront(4) << endl;   // 0
+    cout << dq.getRear() << endl;        // 2
+    cout << dq.isFull() << endl;         // 1
+    cout << dq.deleteLast() << endl;     // 1
+    cout << dq.insertFront(4) << endl;   // 1
+    cout << dq.getFront() << endl;       // 4
+
+    return 0;
+}
