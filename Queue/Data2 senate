@@ -1,0 +1,70 @@
+#include <iostream>
+#include <queue>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    string predictPartyVictory(string senate) {
+        queue<int> radient;
+        queue<int> dire;
+
+        int n = senate.size();
+
+        // Store indices of both parties
+        for (int i = 0; i < n; i++) {
+            if (senate[i] == 'R') {
+                radient.push(i);
+            }
+            else {
+                dire.push(i);
+            }
+        }
+
+        // Voting process
+        while (!radient.empty() && !dire.empty()) {
+
+            if (radient.front() < dire.front()) {
+
+                // Radiant bans Dire
+                dire.pop();
+
+                int a = radient.front() + n;
+                radient.pop();
+                radient.push(a);
+            }
+            else {
+
+                // Dire bans Radiant
+                radient.pop();
+
+                int b = dire.front() + n;
+                dire.pop();
+                dire.push(b);
+            }
+        }
+
+        if (!radient.empty()) {
+            return "Radiant";
+        }
+        else {
+            return "Dire";
+        }
+    }
+};
+
+int main() {
+
+    Solution obj;
+
+    // Input
+    string senate = "RDD";
+
+    // Result
+    string result = obj.predictPartyVictory(senate);
+
+    cout << "Input: " << senate << endl;
+    cout << "Result: " << result << endl;
+
+    return 0;
+}
