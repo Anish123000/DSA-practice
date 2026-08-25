@@ -1,0 +1,65 @@
+#include <iostream>
+#include <vector>
+#include <deque>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums, int limit) {
+        deque<int> maxx;
+        deque<int> min;
+
+        int l = 0;
+        int ans = 0;
+
+        for (int i = 0; i < nums.size(); i++) {
+
+            // Maximum ke liye decreasing deque
+            while (!maxx.empty() && nums[maxx.back()] < nums[i]) {
+                maxx.pop_back();
+            }
+            maxx.push_back(i);
+
+            // Minimum ke liye increasing deque
+            while (!min.empty() && nums[min.back()] > nums[i]) {
+                min.pop_back();
+            }
+            min.push_back(i);
+
+            // Window invalid hai
+            while (nums[maxx.front()] - nums[min.front()] > limit) {
+
+                if (maxx.front() == l) {
+                    maxx.pop_front();
+                }
+
+                if (min.front() == l) {
+                    min.pop_front();
+                }
+
+                l++;
+            }
+
+            // Current valid window ki length
+            ans = max(ans, i - l + 1);
+        }
+
+        return ans;
+    }
+};
+
+int main() {
+
+    Solution s;
+
+    vector<int> nums = {10, 1, 2, 4, 7, 2};
+    int limit = 5;
+
+    int answer = s.longestSubarray(nums, limit);
+
+    cout << "Longest Subarray Length = " << answer << endl;
+
+    return 0;
+}
