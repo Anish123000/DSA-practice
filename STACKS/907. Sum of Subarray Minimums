@@ -1,0 +1,68 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+using namespace std;
+
+class Solution {
+public:
+    int sumSubarrayMins(vector<int>& arr) {
+        stack<int> s;
+        vector<int> prevsmall(arr.size());
+        vector<int> nextsmall(arr.size());
+
+        int n = arr.size();
+        int MOD = 1e9 + 7;
+        long long contribution = 0;
+
+        // Previous Smaller
+        for (int i = 0; i < n; i++) {
+            while (!s.empty() && arr[s.top()] >= arr[i]) {
+                s.pop();
+            }
+
+            if (!s.empty())
+                prevsmall[i] = s.top();
+            else
+                prevsmall[i] = -1;
+
+            s.push(i);
+        }
+
+        while (!s.empty()) s.pop();
+
+        // Next Smaller
+        for (int i = n - 1; i >= 0; i--) {
+            while (!s.empty() && arr[s.top()] > arr[i]) {
+                s.pop();
+            }
+
+            if (!s.empty())
+                nextsmall[i] = s.top();
+            else
+                nextsmall[i] = n;
+
+            s.push(i);
+        }
+
+        // Contribution
+        for (int i = 0; i < n; i++) {
+            int left = i - prevsmall[i];
+            int right = nextsmall[i] - i;
+
+            contribution += 1LL * left * right * arr[i];
+            contribution %= MOD;
+        }
+
+        return contribution;
+    }
+};
+
+int main() {
+    Solution obj;
+
+    vector<int> arr = {3, 1, 2, 4};
+    cout << "The sum of minimum subarrays : ";
+    cout << obj.sumSubarrayMins(arr) << endl;
+
+    return 0;
+}
