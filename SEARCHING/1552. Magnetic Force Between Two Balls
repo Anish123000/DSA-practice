@@ -1,0 +1,61 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    bool issafe(vector<int>& position, int m, int mid) {
+        int ballsPlaced = 1;
+        int lastPos = position[0];
+
+        for (int i = 1; i < position.size(); i++) {
+            if (position[i] - lastPos >= mid) {
+                ballsPlaced++;
+                lastPos = position[i];
+            }
+
+            if (ballsPlaced == m) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    int maxDistance(vector<int>& position, int m) {
+        sort(position.begin(), position.end());
+
+        int ans = 0;
+        int n = position.size();
+        int st = 1;
+        int end = position[n - 1] - position[0];
+
+        while (st <= end) {
+            int mid = st + (end - st) / 2;
+
+            if (issafe(position, m, mid)) {
+                ans = mid;
+                st = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+
+        return ans;
+    }
+};
+
+int main() {
+    Solution obj;
+ 
+    vector<int> position1 = {1, 2, 3, 4, 7};
+    int m1 = 3;
+    cout << "Output: " << obj.maxDistance(position1, m1) << endl;
+ 
+    vector<int> position2 = {5, 4, 3, 2, 1, 1000000000};
+    int m2 = 2;
+    cout << "Output: " << obj.maxDistance(position2, m2) << endl;
+
+    return 0;
+}
