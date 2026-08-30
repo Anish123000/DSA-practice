@@ -1,0 +1,65 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+using namespace std;
+
+class Solution {
+public:
+    bool ispossible(vector<int>& dist, double hour, int speed) {
+        double time = 0;
+        int n = dist.size();
+
+        for (int i = 0; i < n; i++) {
+            if (i == n - 1) {
+                time += (double)dist[i] / speed;
+            } else {
+                time += ceil((double)dist[i] / speed);
+            }
+        }
+
+        return time <= hour;
+    }
+
+    int minSpeedOnTime(vector<int>& dist, double hour) {
+        int n = dist.size();
+
+        if (hour <= n - 1) {
+            return -1;
+        }
+
+        int st = 1;
+        int end = 10000000;
+        int ans = -1;
+
+        while (st <= end) {
+            int mid = st + (end - st) / 2;
+
+            if (ispossible(dist, hour, mid)) {
+                ans = mid;
+                end = mid - 1;
+            } else {
+                st = mid + 1;
+            }
+        }
+
+        return ans;
+    }
+};
+
+int main() {
+    Solution obj;
+
+    vector<int> dist1 = {1, 3, 2};
+    cout << obj.minSpeedOnTime(dist1, 6) << endl;
+
+    vector<int> dist2 = {1, 3, 2};
+    cout << obj.minSpeedOnTime(dist2, 2.7) << endl;
+
+    vector<int> dist3 = {1, 3, 2};
+    cout << obj.minSpeedOnTime(dist3, 1.9) << endl;
+
+    vector<int> dist4 = {1, 1, 100000};
+    cout << obj.minSpeedOnTime(dist4, 2.01) << endl;
+
+    return 0;
+}
