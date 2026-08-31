@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    bool ispossible(vector<int>& nums, int maxOperations, int mid) {
+        long long ope = 0;
+
+        for (int i = 0; i < nums.size(); i++) {
+            ope += (nums[i] - 1) / mid;
+        }
+
+        return ope <= maxOperations;
+    }
+
+    int minimumSize(vector<int>& nums, int maxOperations) {
+        int st = 1;
+        int end = *max_element(nums.begin(), nums.end());
+        int ans = 0;
+
+        while (st <= end) {
+            int mid = st + (end - st) / 2;
+
+            if (ispossible(nums, maxOperations, mid)) {
+                ans = mid;
+                end = mid - 1;
+            } else {
+                st = mid + 1;
+            }
+        }
+
+        return ans;
+    }
+};
+
+int main() {
+
+    vector<int> nums = {2, 4, 8, 2};
+    int maxOperations = 4;
+
+    Solution obj;
+    cout << "Minimum Penalty (Maximum balls allowed in one bag): " << obj.minimumSize(nums, maxOperations);
+
+    return 0;
+}
