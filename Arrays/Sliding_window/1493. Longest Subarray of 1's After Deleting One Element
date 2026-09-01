@@ -1,0 +1,41 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums) {
+        int left = 0;
+        int ans = 0;
+        int zcount = 0;
+
+        for (int right = 0; right < nums.size(); right++) {
+            if (nums[right] == 0) {
+                zcount++;
+            }
+
+            while (zcount > 1) {
+                if (nums[left] == 0) {
+                    zcount--;
+                }
+                left++;
+            }
+
+            ans = max(ans, right - left);
+        }
+
+        return ans;
+    }
+};
+
+int main() {
+    Solution obj;
+
+    vector<int> nums = {1, 1, 1};
+    // vector<int> nums = {1,0,1,1,0,1};
+    // vector<int> nums = {1,1,0,1};
+
+    cout << "Answer = " << obj.longestSubarray(nums) << endl;
+
+    return 0;
+}
