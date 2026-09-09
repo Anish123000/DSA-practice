@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    bool ispossible(vector<int>& time, int totalTrips, long long mid) {
+        long long trip = 0;
+
+        for (int i = 0; i < time.size(); i++) {
+            trip += mid / time[i];
+
+            if (trip >= totalTrips) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    long long minimumTime(vector<int>& time, int totalTrips) {
+        long long ans = 0;
+        long long st = 1;
+        long long end = 1LL * (*min_element(time.begin(), time.end())) * totalTrips;
+
+        while (st <= end) {
+            long long mid = st + (end - st) / 2;
+
+            if (ispossible(time, totalTrips, mid)) {
+                ans = mid;
+                end = mid - 1;
+            } else {
+                st = mid + 1;
+            }
+        }
+
+        return ans;
+    }
+};
+
+int main() {
+     
+    vector<int> time = {1, 2, 3};
+    int totalTrips = 5;
+
+    Solution obj;
+    long long ans = obj.minimumTime(time, totalTrips);
+
+    cout << "Input Time Array: ";
+    for (int i = 0; i < time.size(); i++) {
+        cout << time[i] << " ";
+    }
+
+    cout << "\nTotal Trips Required: " << totalTrips << endl;
+    cout << "Minimum Time Required: " << ans << endl;
+
+    return 0;
+}
