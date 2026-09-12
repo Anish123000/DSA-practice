@@ -1,0 +1,85 @@
+#include <iostream>
+using namespace std;
+
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+
+    ListNode(int x) {
+        val = x;
+        next = NULL;
+    }
+};
+
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+
+        ListNode* prev = NULL;
+        ListNode* curr = head;
+        int pos = 1;
+
+        while (pos < left) {
+            prev = curr;
+            curr = curr->next;
+            pos++;
+        }
+
+        ListNode* beforeleft = prev;
+        ListNode* leftnode = curr;
+
+        prev = NULL;
+        int count = right - left + 1;
+
+        while (count--) {
+            ListNode* next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        if (beforeleft != NULL)
+            beforeleft->next = prev;
+        else
+            head = prev;
+
+        leftnode->next = curr;
+
+        return head;
+    }
+};
+
+void print(ListNode* head) {
+    while (head != NULL) {
+        cout << head->val << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+int main() {
+
+    // Khud se input
+    int arr[] = {1, 2, 3, 4, 5};
+    int left = 2, right = 4;
+
+    ListNode* head = new ListNode(arr[0]);
+    ListNode* temp = head;
+
+    for (int i = 1; i < 5; i++) {
+        temp->next = new ListNode(arr[i]);
+        temp = temp->next;
+    }
+
+    cout << "Original: ";
+    print(head);
+
+    Solution obj;
+    head = obj.reverseBetween(head, left, right);
+
+    cout << "After Reverse: ";
+    print(head);
+
+    return 0;
+}
