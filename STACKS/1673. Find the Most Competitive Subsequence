@@ -1,0 +1,52 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> mostCompetitive(vector<int>& nums, int k) {
+
+        stack<int> s;
+        vector<int> ans;
+
+        for (int i = 0; i < nums.size(); i++) {
+
+            while (!s.empty() &&
+                   s.top() > nums[i] &&
+                   s.size() + (nums.size() - i) > k) {
+                s.pop();
+            }
+
+            if (s.size() < k) {
+                s.push(nums[i]);
+            }
+        }
+
+        while (!s.empty()) {
+            ans.push_back(s.top());
+            s.pop();
+        }
+
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+};
+
+int main() {
+
+    vector<int> nums = {2, 4, 3, 3, 5, 4, 9, 6};
+    int k = 4;
+
+    Solution obj;
+    vector<int> ans = obj.mostCompetitive(nums, k);
+
+    cout << "Most Competitive Subsequence: ";
+
+    for (int i = 0; i < ans.size(); i++) {
+        cout << ans[i] << " ";
+    }
+
+    return 0;
+}
