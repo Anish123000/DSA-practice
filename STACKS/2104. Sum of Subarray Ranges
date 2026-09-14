@@ -1,0 +1,82 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+using namespace std;
+
+class Solution {
+public:
+    long long subArrayRanges(vector<int>& nums) {
+        stack<int> s;
+        int n = nums.size();
+
+        vector<int> prevsmall(n), nextsmall(n);
+        vector<int> prevgreat(n), nextgreat(n);
+
+        long long minContribution = 0;
+        long long maxContribution = 0;
+
+        // Previous Smaller
+        for (int i = 0; i < n; i++) {
+            while (!s.empty() && nums[s.top()] >= nums[i]) {
+                s.pop();
+            }
+            prevsmall[i] = s.empty() ? -1 : s.top();
+            s.push(i);
+        }
+
+        while (!s.empty()) s.pop();
+
+        // Previous Greater
+        for (int i = 0; i < n; i++) {
+            while (!s.empty() && nums[s.top()] <= nums[i]) {
+                s.pop();
+            }
+            prevgreat[i] = s.empty() ? -1 : s.top();
+            s.push(i);
+        }
+
+        while (!s.empty()) s.pop();
+
+        // Next Smaller
+        for (int i = n - 1; i >= 0; i--) {
+            while (!s.empty() && nums[s.top()] > nums[i]) {
+                s.pop();
+            }
+            nextsmall[i] = s.empty() ? n : s.top();
+            s.push(i);
+        }
+
+        while (!s.empty()) s.pop();
+
+        // Next Greater
+        for (int i = n - 1; i >= 0; i--) {
+            while (!s.empty() && nums[s.top()] < nums[i]) {
+                s.pop();
+            }
+            nextgreat[i] = s.empty() ? n : s.top();
+            s.push(i);
+        }
+
+        // Contributions
+        for (int i = 0; i < n; i++) {
+            long long leftSmall = i - prevsmall[i];
+            long long rightSmall = nextsmall[i] - i;
+            minContribution += leftSmall * rightSmall * nums[i];
+
+            long long leftGreat = i - prevgreat[i];
+            long long rightGreat = nextgreat[i] - i;
+            maxContribution += leftGreat * rightGreat * nums[i];
+        }
+
+        return maxContribution - minContribution;
+    }
+};
+
+int main() {
+    vector<int> nums = {4, -2, -3, 4, 1};
+
+    Solution obj;
+    cout << "Sum of Subarray Ranges: " << obj.subArrayRanges(nums);
+
+    return 0;
+}
