@@ -1,0 +1,25 @@
+#include<iostream>
+using namespace std;
+
+void removedupli(string str,string ans,int map[26],int i){
+    if(i == str.size()){
+        cout<<"ans : "<<ans<<endl;
+        return;
+    }
+    char ch = str[i];
+    int mapIdx = (int)(ch-'a');
+    if(map[mapIdx] == true){//duplicate
+        removedupli(str,ans,map,i+1);
+    }
+    else{//non-duplicate
+        map[mapIdx]=true;
+        removedupli(str,ans+str[i],map,i+1);
+    }
+
+}
+int main(){
+    string str = "appnacollege";
+    string ans = "";
+    int map[26] = {false};
+    removedupli(str,ans,map,0);
+}
