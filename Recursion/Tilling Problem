@@ -1,0 +1,19 @@
+#include<iostream>
+using namespace std;
+
+int tillingPro(int n){
+    if(n==0 || n==1){
+        return 1;
+    }
+    //vertical tile place 
+    int ans1 = tillingPro(n-1);
+    //horizontal tile place
+    int ans2 = tillingPro(n-2);
+
+    return ans1 + ans2;
+}
+
+int main(){
+    int n = 4;
+    cout<<tillingPro(n)<<endl;
+}
