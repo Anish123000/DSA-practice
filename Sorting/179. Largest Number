@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    static bool cmp(int a, int b) {
+        string sa = to_string(a);
+        string sb = to_string(b);
+
+        string ab = sa + sb;
+        string ba = sb + sa;
+
+        return ab > ba;
+    }
+
+    string largestNumber(vector<int>& nums) {
+        string ans = "";
+
+        sort(nums.begin(), nums.end(), cmp);
+
+        if (nums[0] == 0) {
+            return "0";
+        }
+
+        for (int i = 0; i < nums.size(); i++) {
+            ans += to_string(nums[i]);
+        }
+
+        return ans;
+    }
+};
+
+int main() {
+
+    vector<int> nums = {3, 30, 34, 5, 9};
+
+    Solution obj;
+
+    string result = obj.largestNumber(nums);
+
+    cout << "Largest Number : " << result << endl;
+
+    return 0;
+}
