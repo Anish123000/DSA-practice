@@ -1,0 +1,22 @@
+#include<iostream>
+using namespace std;
+
+void binaryStr(int n,string ans,int last){
+    if(n==0){
+        cout<<"Binary string is : "<<ans<<endl;
+        return;
+    }
+    if(last != 1){
+        binaryStr(n-1,ans+'0',0);
+        binaryStr(n-1,ans+'1',1);
+    }
+    else{
+        binaryStr(n-1,ans+'0',0);
+    }
+}
+int main(){
+    int n = 3;
+    string ans ="";
+    int last = 0;
+    binaryStr(n,ans,last);
+}
