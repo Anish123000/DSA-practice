@@ -1,0 +1,67 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+
+        int target = k - 1;
+
+        int low = 0;
+        int high = nums.size() - 1;
+
+        while (low <= high) {
+
+            int pivotValue = nums[high];
+
+            int left = low;
+            int i = low;
+            int right = high;
+
+            // 3-way partition
+            while (i <= right) {
+
+                if (nums[i] > pivotValue) {
+                    swap(nums[i], nums[left]);
+                    left++;
+                    i++;
+                }
+                else if (nums[i] < pivotValue) {
+                    swap(nums[i], nums[right]);
+                    right--;
+                }
+                else {
+                    i++;
+                }
+            }
+
+            // target kis part mein hai?
+            if (target < left) {
+                high = left - 1;
+            }
+            else if (target > right) {
+                low = right + 1;
+            }
+            else {
+                return pivotValue;
+            }
+        }
+
+        return -1;
+    }
+};
+
+int main() {
+
+    vector<int> nums = {3, 2, 1, 5, 6, 4};
+    int k = 2;
+
+    Solution obj;
+
+    int answer = obj.findKthLargest(nums, k);
+
+    cout << "Kth largest element = " << answer << endl;
+
+    return 0;
+}
