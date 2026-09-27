@@ -1,0 +1,41 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+class Solution {
+public:
+    bool check(vector<int>& nums) {
+        int n = nums.size();
+        int brreak = 0;
+
+        for(int i = 0; i < n; i++) {
+            if(nums[i] > nums[(i + 1) % n]) {
+                brreak++;
+            }
+        }
+
+        if(brreak <= 1) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+};
+
+int main() {
+    vector<int> nums = {2, 1, 3, 4};
+
+    Solution obj;
+
+    bool result = obj.check(nums);
+
+    cout << "Array: ";
+    for(int x : nums) {
+        cout << x << " ";
+    }
+
+    cout << "\nSorted and Rotated: " << boolalpha << result << endl;
+
+    return 0;
+}
