@@ -1,0 +1,84 @@
+#include <iostream>
+#include <stack>
+#include <string>
+#include <cctype>
+using namespace std;
+
+class Solution {
+public:
+    int calculate(string s) {
+        stack<int> st;
+        int i = 0;
+        int result = 0;
+        char op = '+';
+
+        while (i < s.length()) {
+
+            // spaces skip karo
+            while (i < s.length() && s[i] == ' ') {
+                i++;
+            }
+
+            int num = 0;
+
+            // number banao
+            while (i < s.length() && isdigit(s[i])) {
+                num = num * 10 + (s[i] - '0');
+                i++;
+            }
+
+            // previous operator ke according operation
+            if (op == '+') {
+                st.push(num);
+            }
+
+            if (op == '-') {
+                st.push(-num);
+            }
+
+            if (op == '*') {
+                int ans = st.top() * num;
+                st.pop();
+                st.push(ans);
+            }
+
+            if (op == '/') {
+                int ans = st.top() / num;
+                st.pop();
+                st.push(ans);
+            }
+
+            // operator se pehle spaces skip
+            while (i < s.length() && s[i] == ' ') {
+                i++;
+            }
+
+            // next operator save karo
+            if (i < s.length()) {
+                op = s[i];
+                i++;
+            }
+        }
+
+        // stack ke saare elements ka sum
+        while (!st.empty()) {
+            result += st.top();
+            st.pop();
+        }
+
+        return result;
+    }
+};
+
+int main() {
+
+    // HARD CODED INPUT
+    string s = "3+2*2";
+
+    Solution obj;
+
+    cout << "Expression: " << s << endl;
+    cout << "Answer: " << obj.calculate(s) << endl;
+
+    return 0;
+}
