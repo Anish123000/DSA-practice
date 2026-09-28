@@ -1,0 +1,53 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <climits>
+using namespace std;
+
+class Solution {
+public:
+    int findMaxLength(vector<int>& nums) {
+        unordered_map<int, int> mp;
+
+        int sum = 0;
+        int n = nums.size();
+        int length = 0;
+
+        mp[0] = -1;
+
+        int maxx = INT_MIN;
+
+        for(int i = 0; i < n; i++) {
+
+            if(nums[i] == 0) {
+                sum += -1;
+            }
+            else {
+                sum += 1;
+            }
+
+            if(mp.find(sum) == mp.end()) {
+                mp[sum] = i;
+            }
+            else {
+                length = i - mp[sum];
+            }
+
+            maxx = max(length, maxx);
+        }
+
+        return maxx;
+    }
+};
+
+int main() {
+    vector<int> nums = {0, 1, 0, 1};
+
+    Solution obj;
+
+    int answer = obj.findMaxLength(nums);
+
+    cout << "Maximum length: " << answer << endl;
+
+    return 0;
+}
