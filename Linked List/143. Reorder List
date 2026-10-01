@@ -1,0 +1,90 @@
+#include <iostream>
+using namespace std;
+
+struct ListNode {
+    int val;
+    ListNode* next;
+
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+
+        // Find middle
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while (fast != NULL && fast->next != NULL) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        // Separate second half
+        ListNode* second = slow->next;
+        slow->next = NULL;
+
+        // Reverse second half
+        ListNode* prev = NULL;
+        ListNode* curr = second;
+        ListNode* next = NULL;
+
+        while (curr != NULL) {
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        // Alternate merge
+        ListNode* first = head;
+        ListNode* sec = prev;
+
+        while (sec != NULL) {
+            ListNode* firstnext = first->next;
+            ListNode* secnext = sec->next;
+
+            first->next = sec;
+            sec->next = firstnext;
+
+            first = firstnext;
+            sec = secnext;
+        }
+    }
+};
+
+void printList(ListNode* head) {
+    while (head != NULL) {
+        cout << head->val;
+
+        if (head->next != NULL) {
+            cout << " -> ";
+        }
+
+        head = head->next;
+    }
+
+    cout << endl;
+}
+
+int main() {
+ 
+    ListNode* head = new ListNode(1);
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(3);
+    head->next->next->next = new ListNode(4);
+    head->next->next->next->next = new ListNode(5);
+
+    cout << "Original list: ";
+    printList(head);
+
+    Solution obj;
+    obj.reorderList(head);
+
+    cout << "Reordered list: ";
+    printList(head);
+
+    return 0;
+}
