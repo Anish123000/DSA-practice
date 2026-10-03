@@ -1,0 +1,49 @@
+#include <iostream>
+#include <vector>
+#include <cstdlib>
+using namespace std;
+
+vector<int> findDuplicates(vector<int>& nums) {
+
+    vector<int> ans;
+
+    for (int i = 0; i < nums.size(); i++) {
+
+        // Current number ko positive rakho
+        int x = abs(nums[i]);
+
+        // Value ko index mein convert karo
+        int idx = x - 1;
+
+        // Agar already negative hai,
+        // iska matlab number pehle aa chuka hai
+        if (nums[idx] < 0) {
+            ans.push_back(abs(nums[i]));
+        }
+        else {
+            // Pehli baar mila -> mark kar do
+            nums[idx] = -nums[idx];
+        }
+    }
+
+    return ans;
+}
+
+int main() {
+ 
+    vector<int> nums = {4, 3, 2, 7, 8, 2, 3, 1};
+
+    vector<int> ans = findDuplicates(nums);
+
+ 
+    cout << "Duplicate elements: ";
+
+    for (int x : ans) {
+        cout << x << " ";
+    }
+
+    cout << endl;
+
+    return 0;
+}
+ 
