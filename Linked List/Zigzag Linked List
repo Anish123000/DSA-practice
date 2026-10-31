@@ -1,0 +1,114 @@
+#include<iostream>
+using namespace std;
+
+class Node{
+    public:
+    int data;
+    Node* next;
+    public:
+    Node(int val){
+        data = val;
+        next = NULL;
+    }
+};
+
+class LList{
+    public:
+    Node* head;
+    Node* tail;
+    public:
+    LList(){
+        head = NULL;
+        tail = NULL;
+    }
+    void push_back(int val){
+        Node* newnode = new Node(val);//dynamic
+        // Node* newnode(val); static it is not possible to access from outside the class or from main function
+        if(head == NULL){
+            head = tail = newnode;
+        }
+        else{
+            tail->next = newnode;
+            tail = newnode;
+        }
+    }
+
+    void print(){
+        Node* temp = head;
+        while(temp != NULL){
+            cout<<temp->data<<"->";
+            temp = temp->next;
+        }
+        cout<<"NULL"<<endl;
+    }
+
+ 
+};
+
+Node* reverse(Node* head){
+    Node* curr = head;
+    Node* next = NULL;
+    Node* prev = NULL;
+    while(curr != NULL){
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    return prev;
+}
+
+Node* splitAtMid(Node* head){
+    Node* slow = head;
+    Node* fast = head;
+    Node* prev = NULL;
+    while(fast != NULL && fast->next != NULL){
+        prev = slow;
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    if(prev != NULL){
+        prev->next = NULL;//split at middle
+    }
+    return slow;//right head
+}
+
+Node* zigzag(Node* head){
+    Node* righthead = splitAtMid(head);
+    Node* revRightHead = reverse(righthead);
+
+    //alternate merging
+    Node* left = head;
+    Node* right = revRightHead;
+    Node* tail = right;
+
+    while(left != NULL && right != NULL){
+        Node* leftnext = left->next;
+        Node* rightnext = right->next;
+
+        left->next = right;
+        right->next = leftnext;
+        tail = right;
+
+        left = leftnext;
+        right = rightnext;
+    }
+
+    if(right != NULL){
+        tail->next = right;
+    }
+    return head;
+}
+
+int main(){
+    LList ll;
+    
+    ll.push_back(10);
+    ll.push_back(100);
+    ll.push_back(40);
+    ll.push_back(500);
+    ll.push_back(60);
+    ll.print();
+    ll.head = zigzag(ll.head);
+    ll.print();
+}
