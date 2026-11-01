@@ -1,0 +1,44 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+template<class T>
+class Stack {
+    vector<T>vec;
+    public:
+    void push(T val){
+        vec.push_back(val);
+    }
+
+    void pop(){
+        if(isempty()){
+            cout<<"stack is empty"<<endl;
+             return;
+        }
+        vec.pop_back();
+    }
+
+    T top(){
+        if(isempty()){
+            cout<<"stack is empty"<<endl;
+            return T();
+        }
+        int lastidx = vec.size()-1;
+        return vec[lastidx];
+    }
+
+    bool isempty(){
+        return vec.size()==0;
+    }
+};
+
+int main(){
+    Stack <char> s;
+    s.push('c');
+    s.push('b');
+    s.push('a');
+
+    while(!s.isempty()){
+        cout<<s.top()<<" "<<endl;
+        s.pop();
+    }
+}
