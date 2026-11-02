@@ -1,84 +1,61 @@
-#include <iostream>
-#include <vector>
-#include <stack>
-#include <algorithm>
+#include<iostream>
+#include<stack>
+#include<vector>
 using namespace std;
 
-class Solution {
-public:
-    int largestRectangleArea(vector<int>& heights) {
+void maxAreaHisto(vector<int>height){
+    int n = height.size();
+    vector<int>left(n);
+    vector<int>right(n);
+    stack<int>s;
 
-        int n = heights.size();
-
-        vector<int> left(n, 0);   // nearest smaller element on left
-        vector<int> right(n, 0);  // nearest smaller element on right
-
-        stack<int> s;
-
-        // Right smaller
-        for (int i = n - 1; i >= 0; i--) {
-
-            while (s.size() > 0 && heights[s.top()] >= heights[i]) {
-                s.pop();
-            }
-
-            if (s.empty()) {
-                right[i] = n;
-            }
-            else {
-                right[i] = s.top();
-            }
-
-            s.push(i);
-        }
-
-        // Clear stack
-        while (!s.empty()) {
+    // left smaller
+    left[0]=  -1;
+    s.push(0);
+    for(int i = 1;i<n;i++){
+        while(!s.empty() && height[s.top()] >= height[i]){
             s.pop();
         }
-
-        // Left smaller
-        for (int i = 0; i < n; i++) {
-
-            while (s.size() > 0 && heights[s.top()] >= heights[i]) {
-                s.pop();
-            }
-
-            if (s.empty()) {
-                left[i] = -1;
-            }
-            else {
-                left[i] = s.top();
-            }
-
-            s.push(i);
+        if(s.empty()){
+            left[i] = -1;
         }
-
-        // Calculate maximum area
-        int ans = 0;
-
-        for (int i = 0; i < n; i++) {
-
-            int width = right[i] - left[i] - 1;
-
-            int currarea = heights[i] * width;
-
-            ans = max(ans, currarea);
+        else{
+            left[i] = s.top();
         }
-
-        return ans;
+        s.push(i);
     }
-};
 
-int main() {
+    while(!s.empty()){
+        s.pop();
+    }
 
-    Solution obj;
+    // right smaller
+    s.push(n-1);
+    right[n-1] = n;
+    for(int i = n-2;i>=0; i--){
+        while(!s.empty() && height[s.top()] >= height[i]){
+            s.pop();
+        }
+        if(s.empty()){
+            right[i] = n;
+        }
+        else{
+            right[i] = s.top();
+        }
+        s.push(i);
+    }
 
-    vector<int> heights = {2, 1, 5, 6, 2, 3};
+    int maxarea = 0;
+    for(int i =0;i<n;i++){
+        int ht = height[i];
+        int wt = right[i] - left[i] - 1;
+        int area = ht * wt;
+        maxarea = max(maxarea, area);
+    }
+    cout<<"Maximum area is: "<<maxarea<<endl;
+}
 
-    int result = obj.largestRectangleArea(heights);
-
-    cout << "Largest Rectangle Area = " << result << endl;
-
-    return 0;
+int main(){
+    vector<int>height = {2,1,5,6,2,3};
+    maxAreaHisto(height);
 }
