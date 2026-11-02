@@ -1,0 +1,83 @@
+
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int val) {
+        data = val;
+        next = NULL;
+    }
+};
+
+class Solution {
+public:
+    void linkDelete(Node* head, int n, int m) {
+
+        Node* curr = head;
+
+        while (curr != NULL) {
+ 
+            for (int i = 1; i < m && curr != NULL; i++) {
+                curr = curr->next;
+            }
+ 
+            if (curr == NULL) {
+                break;
+            }
+
+            Node* temp = curr->next;
+ 
+            for (int i = 0; i < n && temp != NULL; i++) {
+
+                Node* del = temp;
+                temp = temp->next;
+
+                delete del;
+            }
+
+           
+            curr->next = temp;
+            curr = temp;
+        }
+    }
+};
+
+// Print linked list
+void printList(Node* head) {
+    while (head != NULL) {
+        cout << head->data << " -> ";
+        head = head->next;
+    }
+    cout << "NULL" << endl;
+}
+
+int main() {
+ 
+    int m = 2;
+    int n = 2;
+
+    Node* head = new Node(1);
+    head->next = new Node(2);
+    head->next->next = new Node(3);
+    head->next->next->next = new Node(4);
+    head->next->next->next->next = new Node(5);
+    head->next->next->next->next->next = new Node(6);
+    head->next->next->next->next->next->next = new Node(7);
+    head->next->next->next->next->next->next->next = new Node(8);
+
+    cout << "Original Linked List: ";
+    printList(head);
+
+    Solution obj;
+
+    obj.linkDelete(head, n, m);
+
+    cout << "After Deletion: ";
+    printList(head);
+
+    return 0;
+}
