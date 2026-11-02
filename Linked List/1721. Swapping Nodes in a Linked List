@@ -1,0 +1,91 @@
+
+#include <iostream>
+using namespace std;
+
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+
+    ListNode(int x) {
+        val = x;
+        next = NULL;
+    }
+};
+
+class Solution {
+public:
+    ListNode* swapNodes(ListNode* head, int k) {
+
+        if (head == NULL) {
+            return head;
+        }
+
+        ListNode* temp = head;
+        ListNode* first = NULL;
+        ListNode* sec = head;
+
+        int i = 1;
+ 
+        while (temp != NULL && i < k) {
+            temp = temp->next;
+            i++;
+        }
+
+        first = temp;
+
+        if (first == NULL) {
+            return head;
+        }
+
+        // Move both pointers together
+        temp = first;
+
+        while (temp->next != NULL) {
+            temp = temp->next;
+            sec = sec->next;
+        }
+
+        // Swap values
+        swap(first->val, sec->val);
+
+        return head;
+    }
+};
+
+// Print linked list
+void printList(ListNode* head) {
+    while (head != NULL) {
+        cout << head->val << " -> ";
+        head = head->next;
+    }
+    cout << "NULL" << endl;
+}
+
+int main() {
+ 
+    int k = 5;
+
+    ListNode* head = new ListNode(7);
+    head->next = new ListNode(9);
+    head->next->next = new ListNode(6);
+    head->next->next->next = new ListNode(6);
+    head->next->next->next->next = new ListNode(7);
+    head->next->next->next->next->next = new ListNode(8);
+    head->next->next->next->next->next->next = new ListNode(3);
+    head->next->next->next->next->next->next->next = new ListNode(0);
+    head->next->next->next->next->next->next->next->next = new ListNode(9);
+    head->next->next->next->next->next->next->next->next->next = new ListNode(5);
+
+    cout << "Original Linked List: ";
+    printList(head);
+
+    Solution obj;
+
+    head = obj.swapNodes(head, k);
+
+    cout << "After Swapping Nodes: ";
+    printList(head);
+
+    return 0;
+}
